@@ -1,0 +1,15 @@
+# 不上傳答案資料夾
+answer/
+
+# ROS2 / colcon 編譯產生的資料夾
+build/
+install/
+log/
+
+# Python 暫存檔
+__pycache__/
+*.pyc
+
+# 系統或編輯器暫存
+.DS_Store
+.vscode/

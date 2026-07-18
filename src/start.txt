@@ -1,0 +1,11 @@
+
+  nv2:
+__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia \
+ros2 launch turtlebot4_ignition_bringup turtlebot4_ignition.launch.py model:=lite world:=test_new_corridor_perp2_v046 rviz:=true
+
+ros2 launch turtlebot4_navigation localization.launch.py \
+use_sim_time:=true map:=/home/open/local_planner_course_ws/turtlebot4_ws.yaml
+
+ros2 launch turtlebot4_navigation nav2.launch.py use_sim_time:=true
+
+

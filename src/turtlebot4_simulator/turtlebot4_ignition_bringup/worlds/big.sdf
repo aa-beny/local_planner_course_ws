@@ -1,0 +1,239 @@
+<sdf version='1.9'>
+  <world name='big'>
+    <physics name='1ms' type='ignored'>
+      <max_step_size>0.003</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <plugin name='ignition::gazebo::systems::Physics' filename='ignition-gazebo-physics-system'/>
+    <plugin name='ignition::gazebo::systems::UserCommands' filename='ignition-gazebo-user-commands-system'/>
+    <plugin name='ignition::gazebo::systems::SceneBroadcaster' filename='ignition-gazebo-scene-broadcaster-system'/>
+    <plugin name='ignition::gazebo::systems::Contact' filename='ignition-gazebo-contact-system'/>
+
+    <gravity>0 0 -9.8</gravity>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <!-- 地面 -->
+    <model name='ground_plane'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 外框：20x20，牆高 2m，厚 0.3m -->
+    <model name='border'>
+      <pose>0 0 1 0 0 0</pose>
+      <static>true</static>
+      <link name='wall_west'>
+        <pose>-10.15 0 0 0 0 0</pose>
+        <collision name='col'><geometry><box><size>0.3 20.3 2</size></box></geometry></collision>
+        <visual name='vis'><geometry><box><size>0.3 20.3 2</size></box></geometry></visual>
+      </link>
+      <link name='wall_east'>
+        <pose>10.15 0 0 0 0 0</pose>
+        <collision name='col'><geometry><box><size>0.3 20.3 2</size></box></geometry></collision>
+        <visual name='vis'><geometry><box><size>0.3 20.3 2</size></box></geometry></visual>
+      </link>
+      <link name='wall_north'>
+        <pose>0 10.15 0 0 0 0</pose>
+        <collision name='col'><geometry><box><size>20.3 0.3 2</size></box></geometry></collision>
+        <visual name='vis'><geometry><box><size>20.3 0.3 2</size></box></geometry></visual>
+      </link>
+      <link name='wall_south'>
+        <pose>0 -10.15 0 0 0 0</pose>
+        <collision name='col'><geometry><box><size>20.3 0.3 2</size></box></geometry></collision>
+        <visual name='vis'><geometry><box><size>20.3 0.3 2</size></box></geometry></visual>
+      </link>
+    </model>
+
+
+    <!-- 預埋物件池：10 個方柱 + 10 個圓柱，初始藏在 z = -10 -->
+    <!-- 方柱大小 0.5x0.5x0.5，圓柱半徑 0.3，高 0.6，皆 static -->
+    <!-- 你若要改尺寸，記得在 ObstacleManager 的 radius 也同步調整 -->
+    <!-- Boxes -->
+    <model name='box_pool_0'><pose>0 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_1'><pose>1 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_2'><pose>2 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_3'><pose>3 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_4'><pose>4 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_5'><pose>5 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_6'><pose>6 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_7'><pose>7 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_8'><pose>8 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_9'><pose>9 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_10'><pose>10 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_11'><pose>11 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_12'><pose>12 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_13'><pose>13 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_14'><pose>14 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_15'><pose>15 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_16'><pose>16 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_17'><pose>17 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_18'><pose>18 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+    <model name='box_pool_19'><pose>19 0 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></visual>
+      <collision name='col'><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision></link>
+    </model>
+
+    <!-- Cylinders -->
+    <model name='cyl_pool_0'><pose>0 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_1'><pose>1 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_2'><pose>2 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_3'><pose>3 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_4'><pose>4 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_5'><pose>5 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_6'><pose>6 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_7'><pose>7 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_8'><pose>8 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_9'><pose>9 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_10'><pose>10 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_11'><pose>11 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_12'><pose>12 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_13'><pose>13 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_14'><pose>14 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_15'><pose>15 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_16'><pose>16 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_17'><pose>17 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_18'><pose>18 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+    <model name='cyl_pool_19'><pose>19 1 -10 0 0 0</pose><static>true</static>
+      <link name='link'><visual name='vis'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></visual>
+      <collision name='col'><geometry><cylinder><radius>0.3</radius><length>0.6</length></cylinder></geometry></collision></link>
+    </model>
+
+    <light name='sun' type='directional'>
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+  </world>
+</sdf>

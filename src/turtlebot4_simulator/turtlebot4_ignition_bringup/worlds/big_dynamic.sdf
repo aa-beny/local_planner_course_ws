@@ -1,0 +1,381 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="big_dynamic">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <plugin name="ignition::gazebo::systems::Physics" filename="ignition-gazebo-physics-system"/>
+    <plugin name="ignition::gazebo::systems::UserCommands" filename="ignition-gazebo-user-commands-system"/>
+    <plugin name="ignition::gazebo::systems::SceneBroadcaster" filename="ignition-gazebo-scene-broadcaster-system"/>
+    <plugin name="ignition::gazebo::systems::Contact" filename="ignition-gazebo-contact-system"/>
+
+    <gravity>0 0 -9.8</gravity>
+
+    <scene>
+      <ambient>0.45 0.45 0.45 1</ambient>
+      <background>0.75 0.75 0.75 1</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <intensity>1.1</intensity>
+      <direction>-0.5 0.1 -0.9</direction>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100.0 100.0</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100.0 100.0</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.80 0.80 0.80 1</ambient>
+            <diffuse>0.80 0.80 0.80 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="border">
+      <pose>0 0 1 0 0 0</pose>
+      <static>true</static>
+      <link name="wall_west">
+        <pose>-10.15 0 0 0 0 0</pose>
+        <collision name="col"><geometry><box><size>0.3 20.3 2</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.3 20.3 2</size></box></geometry></visual>
+      </link>
+      <link name="wall_east">
+        <pose>10.15 0 0 0 0 0</pose>
+        <collision name="col"><geometry><box><size>0.3 20.3 2</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.3 20.3 2</size></box></geometry></visual>
+      </link>
+      <link name="wall_north">
+        <pose>0 10.15 0 0 0 0</pose>
+        <collision name="col"><geometry><box><size>20.3 0.3 2</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>20.3 0.3 2</size></box></geometry></visual>
+      </link>
+      <link name="wall_south">
+        <pose>0 -10.15 0 0 0 0</pose>
+        <collision name="col"><geometry><box><size>20.3 0.3 2</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>20.3 0.3 2</size></box></geometry></visual>
+      </link>
+    </model>
+
+    <actor name="actor_0">
+      <skin>
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <scale>1.0</scale>
+      </skin>
+      <animation name="walking">
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <loop>true</loop>
+        <delay_start>0.00</delay_start>
+        <auto_start>true</auto_start>
+        <trajectory id="0" type="walking" tension="0.6">
+          <waypoint><time>0.00</time><pose>-7.50 -3.00 1.00 0 0 0.000000</pose></waypoint>
+          <waypoint><time>32.61</time><pose>7.50 -3.00 1.00 0 0 0.000000</pose></waypoint>
+          <waypoint><time>32.91</time><pose>7.50 -3.00 1.00 0 0 3.141593</pose></waypoint>
+          <waypoint><time>32.91</time><pose>7.50 -3.00 1.00 0 0 3.141593</pose></waypoint>
+          <waypoint><time>65.52</time><pose>-7.50 -3.00 1.00 0 0 3.141593</pose></waypoint>
+          <waypoint><time>65.82</time><pose>-7.50 -3.00 1.00 0 0 0.000000</pose></waypoint>
+          <waypoint><time>65.82</time><pose>-7.50 -3.00 1.00 0 0 0.000000</pose></waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="actor_1">
+      <skin>
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <scale>1.0</scale>
+      </skin>
+      <animation name="walking">
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <loop>true</loop>
+        <delay_start>4.00</delay_start>
+        <auto_start>true</auto_start>
+        <trajectory id="0" type="walking" tension="0.6">
+          <waypoint><time>0.00</time><pose>7.50 3.00 1.00 0 0 3.141593</pose></waypoint>
+          <waypoint><time>32.61</time><pose>-7.50 3.00 1.00 0 0 3.141593</pose></waypoint>
+          <waypoint><time>32.91</time><pose>-7.50 3.00 1.00 0 0 0.000000</pose></waypoint>
+          <waypoint><time>32.91</time><pose>-7.50 3.00 1.00 0 0 0.000000</pose></waypoint>
+          <waypoint><time>65.52</time><pose>7.50 3.00 1.00 0 0 0.000000</pose></waypoint>
+          <waypoint><time>65.82</time><pose>7.50 3.00 1.00 0 0 3.141593</pose></waypoint>
+          <waypoint><time>65.82</time><pose>7.50 3.00 1.00 0 0 3.141593</pose></waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="actor_2">
+      <skin>
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <scale>1.0</scale>
+      </skin>
+      <animation name="walking">
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <loop>true</loop>
+        <delay_start>8.00</delay_start>
+        <auto_start>true</auto_start>
+        <trajectory id="0" type="walking" tension="0.6">
+          <waypoint><time>0.00</time><pose>-3.00 -7.50 1.00 0 0 1.570796</pose></waypoint>
+          <waypoint><time>32.61</time><pose>-3.00 7.50 1.00 0 0 1.570796</pose></waypoint>
+          <waypoint><time>32.91</time><pose>-3.00 7.50 1.00 0 0 -1.570796</pose></waypoint>
+          <waypoint><time>32.91</time><pose>-3.00 7.50 1.00 0 0 -1.570796</pose></waypoint>
+          <waypoint><time>65.52</time><pose>-3.00 -7.50 1.00 0 0 -1.570796</pose></waypoint>
+          <waypoint><time>65.82</time><pose>-3.00 -7.50 1.00 0 0 1.570796</pose></waypoint>
+          <waypoint><time>65.82</time><pose>-3.00 -7.50 1.00 0 0 1.570796</pose></waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="actor_3">
+      <skin>
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <scale>1.0</scale>
+      </skin>
+      <animation name="walking">
+        <filename>https://fuel.gazebosim.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <loop>true</loop>
+        <delay_start>12.00</delay_start>
+        <auto_start>true</auto_start>
+        <trajectory id="0" type="walking" tension="0.6">
+          <waypoint><time>0.00</time><pose>3.00 7.50 1.00 0 0 -1.570796</pose></waypoint>
+          <waypoint><time>32.61</time><pose>3.00 -7.50 1.00 0 0 -1.570796</pose></waypoint>
+          <waypoint><time>32.91</time><pose>3.00 -7.50 1.00 0 0 1.570796</pose></waypoint>
+          <waypoint><time>32.91</time><pose>3.00 -7.50 1.00 0 0 1.570796</pose></waypoint>
+          <waypoint><time>65.52</time><pose>3.00 7.50 1.00 0 0 1.570796</pose></waypoint>
+          <waypoint><time>65.82</time><pose>3.00 7.50 1.00 0 0 -1.570796</pose></waypoint>
+          <waypoint><time>65.82</time><pose>3.00 7.50 1.00 0 0 -1.570796</pose></waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <model name="static_box_0">
+      <pose>7.13 -0.84 0.17 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><box><size>0.34 0.34 0.34</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><box><size>0.34 0.34 0.34</size></box></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="static_box_1">
+      <pose>-5.88 7.59 0.17 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><box><size>0.34 0.34 0.34</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><box><size>0.34 0.34 0.34</size></box></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="static_box_2">
+      <pose>6.76 0.21 0.17 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><box><size>0.34 0.34 0.34</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><box><size>0.34 0.34 0.34</size></box></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="static_box_3">
+      <pose>-4.61 -7.49 0.17 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><box><size>0.34 0.34 0.34</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><box><size>0.34 0.34 0.34</size></box></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="static_cyl_0">
+      <pose>1.72 -4.98 0.17 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="static_cyl_1">
+      <pose>7.55 2.85 0.17 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="static_cyl_2">
+      <pose>-4.08 4.85 0.17 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="static_cyl_3">
+      <pose>-6.74 -5.52 0.17 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="teaching_blocker_0">
+      <pose>0 0 -10 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <material><ambient>0.2 0.2 0.2 1</ambient><diffuse>0.2 0.2 0.2 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="teaching_blocker_1">
+      <pose>0 0 -10 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="vis">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <material><ambient>0.2 0.2 0.2 1</ambient><diffuse>0.2 0.2 0.2 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="teacher_patrol">
+      <pose>0 0 -10 0 0 0</pose>
+      <!-- 注意：移除 <static>true</static> 讓它可以被速度控制 -->
+      <plugin filename="ignition-gazebo-velocity-control-system" name="ignition::gazebo::systems::VelocityControl">
+        <link_name>link</link_name>
+        <topic>/teacher_patrol/cmd_vel</topic>
+      </plugin>
+      <link name="link">
+        <inertial>
+          <pose>0 0 -0.34 0 0 0</pose>
+          <mass>200.0</mass>
+          <inertia><ixx>10.0</ixx><iyy>10.0</iyy><izz>10.0</izz></inertia>
+        </inertial>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <surface><contact><collide_bitmask>0x02</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+    <model name="teacher_missile">
+      <pose>0 0 -10 0 0 0</pose>
+      <plugin filename="ignition-gazebo-velocity-control-system" name="ignition::gazebo::systems::VelocityControl">
+        <link_name>link</link_name>
+        <topic>/teacher_missile/cmd_vel</topic>
+      </plugin>
+      <link name="link">
+        <inertial>
+          <pose>0 0 -0.34 0 0 0</pose>
+          <mass>200.0</mass>
+          <inertia><ixx>10.0</ixx><iyy>10.0</iyy><izz>10.0</izz></inertia>
+        </inertial>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material>
+        </visual>
+        <collision name="col">
+          <geometry><cylinder><radius>0.17</radius><length>0.34</length></cylinder></geometry>
+          <surface><contact><collide_bitmask>0x02</collide_bitmask></contact></surface>
+        </collision>
+      </link>
+    </model>
+
+  </world>
+</sdf>
