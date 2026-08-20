@@ -8,4 +8,14 @@ use_sim_time:=true map:=/home/open/local_planner_course_ws/turtlebot4_ws.yaml
 
 ros2 launch turtlebot4_navigation nav2.launch.py use_sim_time:=true
 
+pkill -f ign-gazebo
+pkill -f ruby
+killall -9 ruby
+killall -9 ign
+killall -9 gz
+pkill -f ros
+killall -9 python3
+sleep 8
 
+ros2 launch turtlebot4_navigation localization.launch.py \
+use_sim_time:=true map:=$HOME/local_planner_course_ws/turtlebot4_ws.yaml

@@ -62,7 +62,6 @@ class Config:
         # ===== 評價函數權重 =====
         # 這份程式採用 cost 最小化：cost 越小，軌跡越好。
         # 對應投影片的 heading / velocity / dist，只是寫法從「分數最大化」改成「成本最小化」。
-        # self.to_goal_cost_gain = 0.15  # 朝向目標的 cost 權重
         self.to_goal_cost_gain = 1.0  # 朝向目標的 cost 權重
         self.speed_cost_gain = 1.0  # 速度 cost 權重
         self.obstacle_cost_gain = 1.0  # 障礙物 cost 權重
