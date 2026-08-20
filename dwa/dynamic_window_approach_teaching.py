@@ -62,7 +62,7 @@ class Config:
         # ===== 評價函數權重 =====
         # 這份程式採用 cost 最小化：cost 越小，軌跡越好。
         # 對應投影片的 heading / velocity / dist，只是寫法從「分數最大化」改成「成本最小化」。
-        self.to_goal_cost_gain = 1.0
+        self.to_goal_cost_gain = 1.0  # 朝向目標的 cost 權重
         self.speed_cost_gain = 1.0  # 速度 cost 權重
         self.obstacle_cost_gain = 1.0  # 障礙物 cost 權重
         # to_goal_cost：
@@ -216,7 +216,8 @@ def predict_trajectory(x_init, v, y, config):
     對應投影片：多組速度會產生多條候選軌跡。
 
     原始程式用參數名稱 y 代表 yaw_rate，也就是角速度 omega。
-    這裡保留原本名稱，避免大幅更動原始架構。
+    所以下面看到 y 時，可以先把它當成 omega 來理解。
+    這裡保留原本名稱，是為了不要大幅更動原始架構。
     """
 
     # 複製目前狀態，避免直接改到外面的 x
@@ -278,7 +279,7 @@ def calc_control_and_trajectory(x, dw, config, goal, ob):
             to_goal_cost = config.to_goal_cost_gain * calc_to_goal_cost(trajectory, goal)
 
             # 速度 cost：越慢 cost 越大，鼓勵機器人保持速度
-            speed_cost = config.speed_cost_gain * (config.max_speed - trajectory[-1, 3])# 機器人最大速度減目前速度
+            speed_cost = config.speed_cost_gain * (config.max_speed - trajectory[-1, 3])  # 最大速度減目前速度
 
             # 障礙物 cost：越靠近障礙物 cost 越大；碰撞則回傳無限大
             ob_cost = config.obstacle_cost_gain * calc_obstacle_cost(trajectory, ob, config)
@@ -314,8 +315,8 @@ def calc_obstacle_cost(trajectory, ob, config):
     ox = ob[:, 0]
     oy = ob[:, 1]
 
-    # 計算軌跡上每個點與每個障礙物的 x、y 差值
-    # 用了 NumPy 的 broadcasting
+    # 計算軌跡上每個點與每個障礙物的 x、y 差值。
+    # 這裡只是一次算很多個距離，不用一個點一個點慢慢算。
     dx = trajectory[:, 0] - ox[:, None]
     dy = trajectory[:, 1] - oy[:, None]
 
